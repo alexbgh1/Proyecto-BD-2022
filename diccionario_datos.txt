@@ -2,6 +2,7 @@ NOTICIA
 
 URL: VARCHAR(200)
 Título: VARCHAR(200)
+Autor: VARCHAR(50)
 Fecha de publicación: DATE
 Contenido de la noticia: TEXT
 
