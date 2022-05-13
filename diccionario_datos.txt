@@ -1,0 +1,36 @@
+NOTICIA
+
+URL: VARCHAR(200)
+Título: VARCHAR(200)
+Fecha de publicación: DATE
+Contenido de la noticia: TEXT
+
+GENTE MENCIONADA EN LA NOTICIA
+
+Nombre persona mencionada: VARCHAR(100)             - Posible arreglo (mencionar más de una persona)
+Tiene página en Wikipedia: BOOL
+Profesión: VARCHAR(100)                             - Posible arreglo (tener más de una profesión)
+Fecha de nacimiento: DATE
+Popularidad (cuántas veces se visita): (DATE,INT)   - Posible arreglo (popularidad a lo largo del tiempo)
+
+MEDIO
+
+Nombre del medio: VARCHAR(50)
+Fecha de creación: DATE
+URL página web: VARCHAR(200)
+Región: INT
+País: VARCHAR(20)
+Idioma principal: VARCHAR(20)
+
+DUEÑOS DEL MEDIO
+
+Nombre del dueño: VARCHAR(50)
+Persona natural o empresa: BOOL
+Fecha desde que son dueños: DATE
+
+= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+Nota:
+
+Se está dando el tipo de variable sin específicar mucho más, el resto se ve en el Modelo Entidad Relación
+Como por ejemplo el hecho de que "Popularidad" deba mostrar visitas diarias, eso implicaría usar un arreglo que almacene fechas y visitas
+Por lo que tendríamos una Tabla Popularidad : fechas , visitas ; de ahí a que se diga de tipo (DATE,INT)
