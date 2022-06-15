@@ -19,12 +19,14 @@ def creacion(nombreDataBase,nombreTabla):
   listo = "tabla creada!"
   return listo
 
-nombreBase = "netflix"
-listaTablas = ["peliculas","videos","musica","juegos","ancianos"]
+nombreBase = "noticias_region_aysen"
+noticieros= [
+  "EPD_noticias","Viento_patagon","El_divisadero","Diario_aysen","El_chalenko","Radio_santa_maria",
+  "Diario_aysen_opina","Tehuelche_noticias","Canal_sur_patagonia","Risco_aysen","Radio_las_nieves_FM"
+]
 creaData(nombreBase)
-for i in listaTablas:
+for i in noticieros:
   creacion(nombreBase,i)
-
 
 cur.execute("SHOW TABLES")
 for row in cur:
@@ -36,26 +38,10 @@ for row in cur:
 
 
 
-
-
-
-
-
-"""""
-cur.execute("CREATE DATABASE noticias_region_aysen")
-cur.execute("USE noticias_region_aysen")
-cur.execute("CREATE TABLE EPD_noticias (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50),fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Viento_patagon (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE El_divisadero (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Diario_aysen (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE El_chalenko (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Radio_santa_maria (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Diario_aysen_opina_coyhaique (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Tehuelche_noticias (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50), fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Canal_sur_patagonia (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(2550), titulo VARCHAR(200), autor VARCHAR(50),fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Risco_aysen (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50),fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-cur.execute("CREATE TABLE Radio_las_nieves_FM (id INT AUTO_INCREMENT PRIMARY KEY, url VARCHAR(255), titulo VARCHAR(200), autor VARCHAR(50),fechaDePublicacion DATE, contenidoPublicacion TEXT)")
-"""
+listaa= [
+  "EPD_noticias","Viento_patagon","El_divisadero","Diario_aysen","El_chalenko","Radio_santa_maria",
+  "Diario_aysen_opina","Tehuelche_noticias","Canal_sur_patagonia","Risco_aysen","Radio_las_nieves_FM"
+]
 
 
 
