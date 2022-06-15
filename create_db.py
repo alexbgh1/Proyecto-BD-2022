@@ -36,13 +36,3 @@ for row in cur:
 
 
 
-
-
-listaa= [
-  "EPD_noticias","Viento_patagon","El_divisadero","Diario_aysen","El_chalenko","Radio_santa_maria",
-  "Diario_aysen_opina","Tehuelche_noticias","Canal_sur_patagonia","Risco_aysen","Radio_las_nieves_FM"
-]
-
-
-
-
