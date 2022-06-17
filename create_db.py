@@ -3,7 +3,7 @@ import mysql.connector
 conn = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="root",
+  password="password", #root
   port=3306
 )
 cur = conn.cursor()
