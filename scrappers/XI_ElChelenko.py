@@ -1,14 +1,15 @@
+from asyncio.windows_events import NULL
 import random
 from requests_html import HTMLSession
 import w3lib.html
 import html
-#http://www.elpatagondomingo.cl/
+#https://www.eldivisadero.cl/home
 
 
 def format_date(date):
         return(date.split("T")[0])
 
-def elpatagon():
+def elchelenko():
         ## Simular que estamos utilizando un navegador web
         USER_AGENT_LIST = [
                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -34,16 +35,25 @@ def elpatagon():
         session = HTMLSession()
 
         # # # URL  a revisar
-        URL = ["http://web.elpatagondomingo.cl/2022/06/30/trafico-de-datos-moviles-en-aysen-supera-el-promedio-nacional-en-2022/",
-        "http://web.elpatagondomingo.cl/2022/06/28/tribunal-de-coyhaique-condeno-9-imputados-como-autores-del-delito-de-trafico-de-drogas/",
-        "http://web.elpatagondomingo.cl/2022/06/28/corte-de-coyhaique-conoce-nueva-querella-de-capitulos-contra-jueza-cecilia-urbina/",
-        "http://web.elpatagondomingo.cl/2022/06/25/ministerio-de-salud-decreto-alerta-sanitaria-nacional-por-viruela-del-mono/"]
-
+        URL_SEED = "https://www.elchelenko.cl/page/"
         # # # Path a buscar - Titulo - Fecha - Texto
-        xpath_title="//div//h1"
-        xpath_date="//time[@class='entry-date published']//@datetime"
-        xpath_text="//div[@class='entry-content clearfix']//p"
+        xpath_title="//h1[@class='entry-title']"
+        # xpath_date="//section[@class='enc centro']//div[@class='txt']" # La página no tiene fecha como tal
+        xpath_text="//div[@class='entry-content read-details']//p"
+        xpath_url="//article//h4/a/@href"
 
+        headers = {'user-agent':random.choice(USER_AGENT_LIST) }
+
+        URL = []
+
+        #CRAWLING N PÁGINAS
+        N= 1
+        for i in range(1,N+1):
+                response = session.get(URL_SEED+str(i)+"/",headers=headers)
+                all_urls = response.html.xpath(xpath_url)
+                URL += all_urls
+
+        #SCRAPPING
         titles = []
         dates = []
         texts = []
@@ -52,10 +62,8 @@ def elpatagon():
                 # # # User - Agent
                 headers = {'user-agent':random.choice(USER_AGENT_LIST) }
                 response = session.get(page,headers=headers)
-                
                 title = response.html.xpath(xpath_title)[0].text
-                date = response.html.xpath(xpath_date)[0]
-                print(date, type(date))
+                date = NULL # La página no tiene fecha como tal
                 list_p = response.html.xpath(xpath_text)
                 text = ""
                 for p in list_p:
@@ -67,27 +75,27 @@ def elpatagon():
                         text=text+" "+content
                 
                 titles.append(title)
-                dates.append(format_date(date))
+                dates.append(date)
                 texts.append(text)
+        print("Data scrappeada con éxito.\nEntre 0 y",len(URL)-1," urls.")   
                 
-        print("Data scrappeada con éxito.\nEntre 0 y",len(URL)-1," urls.")
+        #     print("Data scrappeada con éxito.\nVerifica los textos ingresando un número entre 0 y",len(URL)-1,"para verificar su información")
+
+        #     def checkData(idx,URL=URL, titles=titles, dates=dates, texts=texts):
+        #             print("")
+        #             print(f"URL: {URL[idx]}")
+        #             print(f"Title: {titles[idx]}")
+        #             print(f"Date: {dates[idx]}")
+        #             print(f"Text (50 caracteres): {texts[idx][:50]}")
+        #             print("")
+
+        #     continuar = 1
+        #     while(continuar):
+        #             try:
+        #                     idx = int(input("Ingresar índice a revisar: "))
+        #                     checkData(idx)
+        #                     continuar = int(input("Continuar(1): "))
+        #             except:
+        #                     print("Ingresar número válido entre: 0 y ",len(URL)-1)
         
-        # print("Data scrappeada con éxito.\nVerifica los textos ingresando un número entre 0 y",len(URL)-1,"para verificar su información")
-        # def checkData(idx,URL=URL, titles=titles, dates=dates, texts=texts):
-        #         print("")
-        #         print(f"URL: {URL[idx]}")
-        #         print(f"Title: {titles[idx]}")
-        #         print(f"Date: {dates[idx]}")
-        #         print(f"Text (50 caracteres): {texts[idx][:50]}")
-        #         print("")
-
-        # continuar = 1
-        # while(continuar):
-        #         try:
-        #                 idx = int(input("Ingresar índice a revisar: "))
-        #                 checkData(idx)
-        #                 continuar = int(input("Continuar(1): "))
-        #         except:
-        #                 print("Ingresar número válido entre: 0 y ",len(URL)-1)
-
         return URL, titles, dates, texts

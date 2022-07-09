@@ -2,13 +2,13 @@ import random
 from requests_html import HTMLSession
 import w3lib.html
 import html
-#http://www.elpatagondomingo.cl/
+#https://www.eldivisadero.cl/home
 
 
 def format_date(date):
         return(date.split("T")[0])
 
-def elpatagon():
+def eldivisadero():
         ## Simular que estamos utilizando un navegador web
         USER_AGENT_LIST = [
                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -34,15 +34,14 @@ def elpatagon():
         session = HTMLSession()
 
         # # # URL  a revisar
-        URL = ["http://web.elpatagondomingo.cl/2022/06/30/trafico-de-datos-moviles-en-aysen-supera-el-promedio-nacional-en-2022/",
-        "http://web.elpatagondomingo.cl/2022/06/28/tribunal-de-coyhaique-condeno-9-imputados-como-autores-del-delito-de-trafico-de-drogas/",
-        "http://web.elpatagondomingo.cl/2022/06/28/corte-de-coyhaique-conoce-nueva-querella-de-capitulos-contra-jueza-cecilia-urbina/",
-        "http://web.elpatagondomingo.cl/2022/06/25/ministerio-de-salud-decreto-alerta-sanitaria-nacional-por-viruela-del-mono/"]
+        URL = ["https://www.eldivisadero.cl/_noticia/Vecinos-de-sectores-pr%C3%B3ximos-a-derrumbes-preocupados-por-p%C3%A9sima-condici%C3%B3n-del-agua-potable/NjczNjU=",
+        "https://www.eldivisadero.cl/_noticia/Reporte-de-junio-Actividad-de-volcanes-Hudson-Mac%C3%A1-Cay-Melimoyu-y-Mentolat-se-mantiene-en-Alerta-Verde/NjczNzE=",
+        "https://www.eldivisadero.cl/_noticia/Mejoran-acceso-a-las-viviendas-de-adultos-mayores-de-Melinka/NjczNjg="]
 
         # # # Path a buscar - Titulo - Fecha - Texto
-        xpath_title="//div//h1"
-        xpath_date="//time[@class='entry-date published']//@datetime"
-        xpath_text="//div[@class='entry-content clearfix']//p"
+        xpath_title="//div[@class='titular']"
+        xpath_date="//section[@class='enc centro']//div[@class='txt']"
+        xpath_text="//section[@class='texto centro']//p"
 
         titles = []
         dates = []
@@ -52,10 +51,8 @@ def elpatagon():
                 # # # User - Agent
                 headers = {'user-agent':random.choice(USER_AGENT_LIST) }
                 response = session.get(page,headers=headers)
-                
                 title = response.html.xpath(xpath_title)[0].text
-                date = response.html.xpath(xpath_date)[0]
-                print(date, type(date))
+                date = response.html.xpath(xpath_date)[1].text
                 list_p = response.html.xpath(xpath_text)
                 text = ""
                 for p in list_p:
@@ -67,12 +64,12 @@ def elpatagon():
                         text=text+" "+content
                 
                 titles.append(title)
-                dates.append(format_date(date))
+                dates.append(date)
                 texts.append(text)
-                
+
         print("Data scrappeada con éxito.\nEntre 0 y",len(URL)-1," urls.")
-        
         # print("Data scrappeada con éxito.\nVerifica los textos ingresando un número entre 0 y",len(URL)-1,"para verificar su información")
+
         # def checkData(idx,URL=URL, titles=titles, dates=dates, texts=texts):
         #         print("")
         #         print(f"URL: {URL[idx]}")
