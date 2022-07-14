@@ -17,40 +17,88 @@ print("transformers OK")
 import warnings
 warnings.filterwarnings("ignore")
 
-persons = extract.extract_person() # DATOS DE ELCHELENKO
+def extract_wiki(p):
+    persons = p # DATOS DE ELCHELENKO
+    print(persons)
+    datos_person= []
+    print("--------------------")
+    print("Buscando personas en wikipedia")
+    print("--------------------")
+    
 
-datos_person= []
-for person in persons:        
-    #persona mencionada
-    print(person)
+    for idx_datos in range(len(persons)):
+        info_grupal_url = []
+        for idx_persona in range(len(persons[idx_datos])):
+                
+            #persona mencionada
+            print(persons[idx_datos][idx_persona])
+            #resumen wikipedia
+            try:
+                results= wikipedia.search(persons[idx_datos][idx_persona])
+                print(results)
+                summary= wikipedia.summary(results[0], sentences=3)
+                print(summary)
+                #preguntas
+                nacimiento = q_a_es(question="¿En qué año nació el o ella?", context=summary)
+                print("Nació en "+nacimiento["answer"])
 
-    #resumen wikipedia
-    try:
-        results= wikipedia.search(person)
-        print(results)
-        summary= wikipedia.summary(results[0], sentences=3)
-        print(summary)
-        #preguntas
-        nacimiento = q_a_es(question="¿En qué año nació el o ella?", context=summary)
-        print("Nació en "+nacimiento["answer"])
+                profesion = q_a_es(question="¿Cuál es su profesión?", context=summary)
+                print("Su profesión es "+profesion["answer"])
 
-        profesion = q_a_es(question="¿Cuál es su profesión?", context=summary)
-        print("Su profesión es "+profesion["answer"])
+                nacionalidad = q_a_es(question="¿Cuál es su nacionalidad?", context=summary)
+                print("Es "+nacionalidad["answer"])
 
-        nacionalidad = q_a_es(question="¿Cuál es su nacionalidad?", context=summary)
-        print("Es "+nacionalidad["answer"])
+                info_grupal_url.append(nacimiento["answer"],profesion["answer"],nacionalidad["answer"])
 
-        datos_person.append([nacimiento["answer"],profesion["answer"],nacionalidad["answer"]])
-    except:
-        print("Person: ",person, " was not found on wikipedia.")
-    # result=pageviewapi.per_article('es.wikipedia', person, '20220705', '20220705',
-    #                 access='all-access', agent='all-agents', granularity='daily')
+            except:
+                print("Person: ",persons[idx_datos][idx_persona], " was not found on wikipedia.")
+        
+        datos_person.append(info_grupal_url)
 
-    # for item in result.items():
-    #     for article in item[1]:
-    #         views=article['views']
-    #         print("Su popularidad hoy es: "+str(views)+" visitas en wikipedia español.")
+            # popularity
+            # result=pageviewapi.per_article('es.wikipedia', person, '20220705', '20220705',
+            #                 access='all-access', agent='all-agents', granularity='daily')
+
+            # for item in result.items():
+            #     for article in item[1]:
+            #         views=article['views']
+            #         print("Su popularidad hoy es: "+str(views)+" visitas en wikipedia español.")
 
     print("--------------------")
+    return datos_person
 
-print(datos_person)
+    # for person in persons:    
+    #     #persona mencionada
+    #     print(person)
+
+    #     #resumen wikipedia
+    #     try:
+    #         results= wikipedia.search(person)
+    #         print(results)
+    #         summary= wikipedia.summary(results[0], sentences=3)
+    #         print(summary)
+    #         #preguntas
+    #         nacimiento = q_a_es(question="¿En qué año nació el o ella?", context=summary)
+    #         print("Nació en "+nacimiento["answer"])
+
+    #         profesion = q_a_es(question="¿Cuál es su profesión?", context=summary)
+    #         print("Su profesión es "+profesion["answer"])
+
+    #         nacionalidad = q_a_es(question="¿Cuál es su nacionalidad?", context=summary)
+    #         print("Es "+nacionalidad["answer"])
+
+    #         datos_person.append([person,nacimiento["answer"],profesion["answer"],nacionalidad["answer"]])
+    #     except:
+    #         print("Person: ",person, " was not found on wikipedia.")
+        
+    #     # popularity
+    #     # result=pageviewapi.per_article('es.wikipedia', person, '20220705', '20220705',
+    #     #                 access='all-access', agent='all-agents', granularity='daily')
+
+    #     # for item in result.items():
+    #     #     for article in item[1]:
+    #     #         views=article['views']
+    #     #         print("Su popularidad hoy es: "+str(views)+" visitas en wikipedia español.")
+
+    # print("----------------------")
+    # return datos_person
